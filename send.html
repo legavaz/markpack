@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>РЎРґР°С‚СЊ РІРµС‰Рё вЂ” РњР°СЂРє РџР°Рє</title>
+<title>Сдать вещи — Марк Пак</title>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/app.css">
 </head>
@@ -16,91 +16,91 @@
       <div class="page-head">
         <a class="back-btn" href="warehouse.html">
           <svg viewBox="0 0 20 20" fill="none"><path d="M16 10H5M9.5 4.5 4 10l5.5 5.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          РќР°Р·Р°Рґ
+          Назад
         </a>
-        <h1>РЎРґР°С‚СЊ РІРµС‰Рё РЅР° С…СЂР°РЅРµРЅРёРµ</h1>
+        <h1>Сдать вещи на хранение</h1>
       </div>
 
       <form class="form-card" id="sendForm">
-        <div class="section__title">Р’Р°Рј РЅСѓР¶РЅР° РґРѕСЃС‚Р°РІРєР°?</div>
+        <div class="section__title">Вам нужна доставка?</div>
         <div class="radio-cards mb-24">
           <div class="radio-card is-active" data-mode="self">
-            <div class="radio-card__top"><span class="radio-dot"></span>Р”РѕСЃС‚Р°РІР»СЋ СЃР°Рј(Р°)</div>
-            <p>РџСЂРёРІРѕР·РёС‚Рµ РІРµС‰Рё РЅР° СЃРєР»Р°Рґ СЃ 9 РґРѕ 18 С‡Р°СЃРѕРІ РїРѕ Р°РґСЂРµСЃСѓ: Рі. РњРѕСЃРєРІР°, Рі. РўСЂРѕРёС†Рє, СѓР». РџСЂРѕРјС‹С€Р»РµРЅРЅР°СЏ, 15</p>
+            <div class="radio-card__top"><span class="radio-dot"></span>Доставлю сам(а)</div>
+            <p>Привозите вещи на склад с 9 до 18 часов по адресу: г. Москва, г. Троицк, ул. Промышленная, 15</p>
           </div>
           <div class="radio-card" data-mode="delivery">
-            <div class="radio-card__top"><span class="radio-dot"></span>РќСѓР¶РЅР° РґРѕСЃС‚Р°РІРєР°</div>
-            <p>РџРѕСЃР»Рµ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ РјС‹ РїСЂРёРµРґРµРј, Р·Р°РјРµСЂРёРј, РѕС„РѕСЂРјРёРј Рё Р±РµР·РѕРїР°СЃРЅРѕ СѓРІРµР·С‘Рј РІР°С€Рё РІРµС‰Рё РЅР° С…СЂР°РЅРµРЅРёРµ</p>
+            <div class="radio-card__top"><span class="radio-dot"></span>Нужна доставка</div>
+            <p>После согласования мы приедем, замерим, оформим и безопасно увезём ваши вещи на хранение</p>
           </div>
         </div>
 
-        <!-- РЎР°РјРѕРїСЂРёРІРѕР·: РїСЂРѕРїСѓСЃРє -->
+        <!-- Самопривоз: пропуск -->
         <div id="passBlock">
-          <div class="section__title">РџСЂРѕРїСѓСЃРє РЅР° СЃРєР»Р°Рґ</div>
-          <p class="hint mb-16">Р•СЃР»Рё РІР°Рј РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅРµ РёР·РІРµСЃС‚РЅС‹ РґР°РЅРЅС‹Рµ РІРѕРґРёС‚РµР»СЏ, РІС‹ СЃРјРѕР¶РµС‚Рµ Р·Р°РїРѕР»РЅРёС‚СЊ РёС… РїРѕР·Р¶Рµ РІ СЂР°Р·РґРµР»Рµ В«РњРѕРё Р·Р°РєР°Р·С‹В».</p>
+          <div class="section__title">Пропуск на склад</div>
+          <p class="hint mb-16">Если вам на данный момент не известны данные водителя, вы сможете заполнить их позже в разделе «Мои заказы».</p>
           <div id="passList"></div>
-          <button type="button" class="btn btn--ghost btn--sm mb-24" id="addPass">+ Р”РѕР±Р°РІРёС‚СЊ РїСЂРѕРїСѓСЃРє</button>
+          <button type="button" class="btn btn--ghost btn--sm mb-24" id="addPass">+ Добавить пропуск</button>
         </div>
 
-        <!-- Р”РѕСЃС‚Р°РІРєР°: Р°РґСЂРµСЃ Рё РєРѕРЅС‚Р°РєС‚ -->
+        <!-- Доставка: адрес и контакт -->
         <div id="deliveryFields" class="hidden">
-          <div class="section__title">РћС‚РєСѓРґР° Р·Р°Р±СЂР°С‚СЊ РіСЂСѓР·</div>
+          <div class="section__title">Откуда забрать груз</div>
           <div class="card card--flat mb-24 row row--between">
             <div>
-              <b style="font-size:14px">Рі. РњРѕСЃРєРІР°, СѓР». РџСЂРѕС„СЃРѕСЋР·РЅР°СЏ, 15</b>
-              <div class="caption mt-8">РїРѕРґСЉРµР·Рґ 2, СЌС‚Р°Р¶ 5, РґРѕРјРѕС„РѕРЅ 15, Р»РёС„С‚ РџР°СЃСЃР°Р¶РёСЂСЃРєРёР№</div>
+              <b style="font-size:14px">г. Москва, ул. Профсоюзная, 15</b>
+              <div class="caption mt-8">подъезд 2, этаж 5, домофон 15, лифт Пассажирский</div>
             </div>
-            <button type="button" class="btn btn--ghost btn--sm" id="changeAddress">РР·РјРµРЅРёС‚СЊ</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="changeAddress">Изменить</button>
           </div>
 
-          <div class="section__title">РљС‚Рѕ Р±СѓРґРµС‚ РїРµСЂРµРґР°РІР°С‚СЊ РіСЂСѓР·?</div>
+          <div class="section__title">Кто будет передавать груз?</div>
           <div class="form-row">
             <div class="field">
-              <label class="field__label">Р¤РРћ РєРѕРЅС‚Р°РєС‚РЅРѕРіРѕ Р»РёС†Р°*</label>
-              <input class="input" value="РЈСЂС‹РІР°РµРІР° РќР°С‚Р°Р»РёСЏ РђР»РµРєСЃР°РЅРґСЂРѕРІРЅР°" required>
+              <label class="field__label">ФИО контактного лица*</label>
+              <input class="input" value="Урываева Наталия Александровна" required>
             </div>
             <div class="field">
-              <label class="field__label">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°*</label>
+              <label class="field__label">Номер телефона*</label>
               <input class="input" value="+7 999 788-13-11" required>
             </div>
           </div>
-          <label class="check mb-24"><input type="checkbox">РЎРѕРѕР±С‰РµРЅРёСЏ РІРјРµСЃС‚Рѕ Р·РІРѕРЅРєРѕРІ</label>
+          <label class="check mb-24"><input type="checkbox">Сообщения вместо звонков</label>
         </div>
 
-        <div class="section__title">Р”Р°С‚Р° Рё РІСЂРµРјСЏ</div>
+        <div class="section__title">Дата и время</div>
         <div class="form-row">
           <div class="field">
-            <label class="field__label">Р”Р°С‚Р°*</label>
+            <label class="field__label">Дата*</label>
             <select class="select" id="dateSelect"></select>
           </div>
           <div class="field">
-            <label class="field__label">Р’СЂРµРјСЏ*</label>
+            <label class="field__label">Время*</label>
             <select class="select">
-              <option>09:00 вЂ“ 13:00</option>
-              <option>13:00 вЂ“ 20:00</option>
+              <option>09:00 – 13:00</option>
+              <option>13:00 – 20:00</option>
             </select>
           </div>
         </div>
 
-        <div class="section__title">РЎС‚РёРєРµСЂС‹</div>
-        <p class="hint mb-12">Р—Р°РіСЂСѓР·РёС‚Рµ СЃС‚РёРєРµСЂС‹ Рё СѓРєР°Р¶РёС‚Рµ РёС… РєРѕР»РёС‡РµСЃС‚РІРѕ РґР»СЏ РїРµС‡Р°С‚Рё, РґРѕ 50 СЃС‚РёРєРµСЂРѕРІ</p>
+        <div class="section__title">Стикеры</div>
+        <p class="hint mb-12">Загрузите стикеры и укажите их количество для печати, до 50 стикеров</p>
         <label class="card card--flat mb-24" style="display:flex;align-items:center;gap:12px;cursor:pointer;border-style:dashed">
           <span style="width:40px;height:40px;border-radius:8px;background:#EDF0F5;display:flex;align-items:center;justify-content:center;font-size:20px">+</span>
           <span>
-            <b style="font-size:14px;display:block">Р”РѕР±Р°РІРёС‚СЊ РґРѕРєСѓРјРµРЅС‚</b>
-            <span class="caption">РќР°Р¶РјРёС‚Рµ РёР»Рё РїРµСЂРµС‚Р°С‰РёС‚Рµ С„Р°Р№Р»С‹ В· PDF, РґРѕ 50 РњР‘</span>
+            <b style="font-size:14px;display:block">Добавить документ</b>
+            <span class="caption">Нажмите или перетащите файлы · PDF, до 50 МБ</span>
           </span>
           <input type="file" id="stickerInput" accept="application/pdf" multiple class="hidden">
         </label>
         <p class="hint mb-24" id="stickerInfo"></p>
 
-        <div class="section__title">РљРѕРјРјРµРЅС‚Р°СЂРёР№</div>
+        <div class="section__title">Комментарий</div>
         <div class="field">
-          <textarea class="textarea" placeholder="РћСЃС‚Р°РІСЊС‚Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РєР°Р·Сѓ"></textarea>
+          <textarea class="textarea" placeholder="Оставьте комментарий к заказу"></textarea>
         </div>
 
         <div class="row" style="justify-content:flex-end">
-          <button type="submit" class="btn btn--primary btn--lg" style="min-width:240px">РћС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ</button>
+          <button type="submit" class="btn btn--primary btn--lg" style="min-width:240px">Отправить заявку</button>
         </div>
       </form>
     </main>
@@ -117,8 +117,8 @@
 
   function passRow(i) {
     return `<div class="form-row" data-pass="${i}">
-      <div class="field"><label class="field__label">Р¤РРћ РІРѕРґРёС‚РµР»СЏ</label><input class="input" placeholder="РРІР°РЅРѕРІ РРІР°РЅ РРІР°РЅРѕРІРёС‡"></div>
-      <div class="field"><label class="field__label">Р“РѕСЃРЅРѕРјРµСЂ Р°РІС‚РѕРјРѕР±РёР»СЏ</label><input class="input" placeholder="Рђ 123 Р’РЎ 77"></div>
+      <div class="field"><label class="field__label">ФИО водителя</label><input class="input" placeholder="Иванов Иван Иванович"></div>
+      <div class="field"><label class="field__label">Госномер автомобиля</label><input class="input" placeholder="А 123 ВС 77"></div>
     </div>`;
   }
 
@@ -145,11 +145,11 @@
   });
 
   document.getElementById('changeAddress').addEventListener('click', () => {
-    UI.toast('Р’С‹Р±РѕСЂ Р°РґСЂРµСЃР° вЂ” РІ СЃР»РµРґСѓСЋС‰РµР№ РІРµСЂСЃРёРё РїСЂРѕС‚РѕС‚РёРїР°');
+    UI.toast('Выбор адреса — в следующей версии прототипа');
   });
 
   const dateSelect = document.getElementById('dateSelect');
-  const months = ['СЏРЅРІР°СЂСЏ', 'С„РµРІСЂР°Р»СЏ', 'РјР°СЂС‚Р°', 'Р°РїСЂРµР»СЏ', 'РјР°СЏ', 'РёСЋРЅСЏ', 'РёСЋР»СЏ', 'Р°РІРіСѓСЃС‚Р°', 'СЃРµРЅС‚СЏР±СЂСЏ', 'РѕРєС‚СЏР±СЂСЏ', 'РЅРѕСЏР±СЂСЏ', 'РґРµРєР°Р±СЂСЏ'];
+  const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
   const today = new Date();
   for (let i = 1; i <= 5; i++) {
     const d = new Date(today.getTime() + i * 86400000);
@@ -162,7 +162,7 @@
   input.addEventListener('change', () => {
     const n = input.files.length;
     document.getElementById('stickerInfo').textContent = n
-      ? `Р’С‹Р±СЂР°РЅРѕ С„Р°Р№Р»РѕРІ: ${n}. Р’ РґРµРјРѕ С„Р°Р№Р»С‹ РЅРµ Р·Р°РіСЂСѓР¶Р°СЋС‚СЃСЏ.`
+      ? `Выбрано файлов: ${n}. В демо файлы не загружаются.`
       : '';
   });
 
@@ -170,11 +170,11 @@
     e.preventDefault();
     UI.openModal({
       icon: 'ok',
-      title: 'Р—Р°СЏРІРєР° СЃРѕР·РґР°РЅР°',
+      title: 'Заявка создана',
       text: mode === 'self'
-        ? 'РњС‹ РїРѕР»СѓС‡РёР»Рё Р·Р°СЏРІРєСѓ РЅР° РїСЂРёС‘РјРєСѓ. РџСЂРѕРїСѓСЃРє Рё СЃС‚Р°С‚СѓСЃ Р·Р°СЏРІРєРё РґРѕСЃС‚СѓРїРЅС‹ РІ СЂР°Р·РґРµР»Рµ В«РњРѕРё Р·Р°РєР°Р·С‹В».'
-        : 'РњС‹ РїРѕР»СѓС‡РёР»Рё Р·Р°СЏРІРєСѓ РЅР° Р·Р°Р±РѕСЂ РіСЂСѓР·Р°. РњРµРЅРµРґР¶РµСЂ СЃРІСЏР¶РµС‚СЃСЏ СЃ РІР°РјРё РґР»СЏ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ.',
-      actions: [{ label: 'РџРµСЂРµР№С‚Рё Рє Р·Р°РєР°Р·Р°Рј', onClick: () => { location.href = 'orders.html'; } }]
+        ? 'Мы получили заявку на приёмку. Пропуск и статус заявки доступны в разделе «Мои заказы».'
+        : 'Мы получили заявку на забор груза. Менеджер свяжется с вами для согласования.',
+      actions: [{ label: 'Перейти к заказам', onClick: () => { location.href = 'orders.html'; } }]
     });
   });
 })();
