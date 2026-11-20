@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Связь с поддержкой — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="contacts">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head"><h1>Связь с поддержкой</h1></div>
+
+      <div class="detail" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+        <div class="card">
+          <h3 class="mb-12">Есть вопрос? Свяжитесь с нами любым удобным способом</h3>
+          <a class="btn btn--ghost btn--block mb-12" href="tel:+74994606716">+7 (499) 460-67-16</a>
+          <a class="btn btn--ghost btn--block mb-12" href="mailto:support@markpack.ru">Написать на почту</a>
+          <a class="btn btn--ghost btn--block mb-12" href="https://t.me/markpack" target="_blank" rel="noreferrer">Telegram</a>
+          <a class="btn btn--ghost btn--block" href="https://max.ru" target="_blank" rel="noreferrer">MAX</a>
+          <div class="divider"></div>
+          <p class="hint">Отвечаем в течение 24 часов в рабочие дни.</p>
+        </div>
+
+        <div class="card" id="formCard">
+          <h3 class="mb-12">Задать вопрос команде Марк Пак</h3>
+          <form id="supportForm">
+            <div class="field">
+              <label class="field__label">Выберите тему обращения</label>
+              <select class="select" id="topic"></select>
+            </div>
+            <div class="field">
+              <label class="field__label">Ваш вопрос</label>
+              <textarea class="textarea" id="message" placeholder="Добавьте сообщение" minlength="10" required></textarea>
+              <p class="hint">Минимум 10 символов</p>
+            </div>
+            <button class="btn btn--primary btn--lg btn--block" type="submit">Отправить</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const topic = document.getElementById('topic');
+  window.DB.supportTopics.forEach(t => topic.add(new Option(t, t)));
+
+  document.getElementById('supportForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('message').value.trim();
+    if (msg.length < 10) { UI.toast('Опишите вопрос подробнее (минимум 10 символов)'); return; }
+    document.getElementById('formCard').innerHTML = `
+      <div class="empty" style="padding:40px 16px">
+        <div style="font-size:28px;color:#2DB270;margin-bottom:8px">✓</div>
+        <h3>Спасибо за ваше обращение!</h3>
+        <p class="mt-8">Мы обработаем ваш вопрос и вернёмся с ответом в течение 24 часов.</p>
+      </div>`;
+  });
+})();
+</script>
+</body>
+</html>

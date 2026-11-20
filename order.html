@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Заказ — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="orders">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head">
+        <a class="back-btn" href="orders.html">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M16 10H5M9.5 4.5 4 10l5.5 5.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Назад
+        </a>
+        <h1>Редактировать заказ</h1>
+      </div>
+
+      <div class="detail">
+        <form class="form-card" id="orderForm" style="max-width:none">
+          <div class="row row--between mb-8">
+            <div>
+              <h2 id="orderNo">Заказ № —</h2>
+              <p class="muted mt-8" id="orderTitle"></p>
+            </div>
+            <span class="chip" id="orderStatus"></span>
+          </div>
+          <p class="hint hidden" id="readonlyNote" style="color:#B21412">Редактирование невозможно.</p>
+          <div class="divider"></div>
+
+          <div class="section__title">Дата и время</div>
+          <div class="form-row">
+            <div class="field">
+              <label class="field__label">Дата</label>
+              <input class="input" type="date" id="orderDate">
+            </div>
+            <div class="field">
+              <label class="field__label">Время</label>
+              <select class="select" id="orderTime">
+                <option>09:00 – 13:00</option>
+                <option>13:00 – 17:00</option>
+                <option>13:00 – 20:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="passBlock">
+            <div class="section__title">Пропуск на склад</div>
+            <div class="form-row">
+              <div class="field"><label class="field__label">ФИО водителя</label><input class="input" placeholder="Иванов Иван Иванович"></div>
+              <div class="field"><label class="field__label">Госномер автомобиля</label><input class="input" placeholder="А 123 ВС 77"></div>
+            </div>
+          </div>
+
+          <div id="addressBlock" class="hidden">
+            <div class="section__title">Адрес доставки</div>
+            <div class="card card--flat mb-16">
+              <b style="font-size:14px">г. Москва, ул. Профсоюзная, 15</b>
+              <div class="caption mt-8">подъезд 2, этаж 5, домофон 15, лифт Пассажирский</div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label class="field__label">ФИО контактного лица</label><input class="input" value="Урываева Наталия Александровна"></div>
+              <div class="field"><label class="field__label">Номер телефона</label><input class="input" value="+7 999 788-13-11"></div>
+            </div>
+          </div>
+
+          <div class="section__title">Комментарий</div>
+          <div class="field">
+            <textarea class="textarea" id="orderComment" placeholder="Оставьте комментарий к заказу"></textarea>
+          </div>
+
+          <div class="row row--between" style="gap:12px">
+            <button type="button" class="btn btn--ghost" id="cancelBtn">Отменить заказ</button>
+            <button type="submit" class="btn btn--primary" style="min-width:200px" id="saveBtn">Сохранить</button>
+          </div>
+        </form>
+
+        <aside class="detail__side">
+          <div class="side-head">
+            <h3>В заказе</h3>
+            <button class="btn btn--ghost btn--sm" id="addItems">Добавить в заказ</button>
+          </div>
+          <div class="side-sub" id="itemsCount">Всего 0 грузов</div>
+          <div id="itemsList"></div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const DB = window.DB;
+  const params = new URLSearchParams(location.search);
+  const no = params.get('no') || '01174-0002512';
+  const order = DB.orders.find(o => o.no === no) || DB.orders[0];
+  const items = DB.orderItems[order.no] || [];
+  const editable = !!order.editable && !['CLOSED', 'CANCEL'].includes(order.status);
+
+  document.getElementById('orderNo').textContent = `Заказ № ${order.no}`;
+  document.getElementById('orderTitle').textContent = order.title;
+
+  const statusChip = document.getElementById('orderStatus');
+  statusChip.textContent = order.statusText;
+  statusChip.className = 'chip ' + (order.status === 'CLOSED' ? 'chip--grey' : order.status === 'CANCEL' ? 'chip--red' : 'chip--green');
+
+  const dateInput = document.getElementById('orderDate');
+  const [d, m, y] = order.date.split('.');
+  dateInput.value = `${y}-${m}-${d}`;
+
+  const timeSelect = document.getElementById('orderTime');
+  [...timeSelect.options].forEach(o => { if (o.textContent.trim() === order.time) timeSelect.value = o.value; });
+
+  const isAsn = order.type === 'asn';
+  document.getElementById('passBlock').classList.toggle('hidden', !isAsn || order.needDelivery);
+  document.getElementById('addressBlock').classList.toggle('hidden', isAsn && !order.needDelivery);
+
+  if (!editable) {
+    document.getElementById('readonlyNote').classList.remove('hidden');
+    document.querySelectorAll('#orderForm .input, #orderForm .select, #orderForm .textarea').forEach(el => el.disabled = true);
+    document.getElementById('saveBtn').disabled = true;
+    document.getElementById('cancelBtn').disabled = true;
+    document.getElementById('addItems').disabled = true;
+  }
+
+  document.getElementById('itemsCount').textContent = `Всего ${items.length || order.items || 0} грузов`;
+  const listEl = document.getElementById('itemsList');
+  if (items.length) {
+    listEl.innerHTML = items.map((it, i) => `
+      <div class="mini-item">
+        <div class="mini-item__img">${UI.I.box}</div>
+        <div class="mini-item__body">
+          <div class="mini-item__size">${it.weight} кг · ${Number(it.volume).toFixed(3)} м³ · ${it.qty} шт</div>
+          <div class="mini-item__title">${UI.esc(it.title)}</div>
+          <div class="mini-item__no">№ ${UI.esc(it.no)}</div>
+        </div>
+        ${editable ? `<button class="mini-item__del" data-del="${i}" aria-label="Удалить груз">✕</button>` : ''}
+      </div>`).join('');
+    listEl.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => {
+      const idx = Number(b.dataset.del);
+      const removed = items.splice(idx, 1)[0];
+      UI.toast(`Груз ${removed.no} убран из заказа`);
+      document.getElementById('itemsCount').textContent = `Всего ${items.length} грузов`;
+      b.closest('.mini-item').remove();
+    }));
+  } else {
+    listEl.innerHTML = `<p class="hint" style="padding:16px 0">В заказе пока нет грузов.</p>`;
+  }
+
+  document.getElementById('addItems').addEventListener('click', () => {
+    if (!editable) return;
+    location.href = 'refund.html';
+  });
+
+  document.getElementById('orderForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    UI.toast('Заказ сохранён');
+    setTimeout(() => { location.href = 'orders.html'; }, 700);
+  });
+
+  document.getElementById('cancelBtn').addEventListener('click', () => {
+    if (!editable) return;
+    const paid = order.status === 'PACKED';
+    UI.openModal({
+      title: `Вы уверены, что хотите отменить заказ № ${order.no}?`,
+      text: 'После отмены заказа восстановить его будет невозможно.',
+      icon: 'warn',
+      body: paid ? '<p class="hint mt-12" style="color:#B21412">На данном этапе отмена заказа будет платной. Расчёт услуги вы сможете посмотреть в разделе «Баланс и оплата».</p>' : '',
+      actions: [
+        { label: 'Нет', className: 'btn--ghost' },
+        { label: 'Да', className: 'btn--primary', onClick: () => {
+          order.status = 'CANCEL';
+          order.statusText = 'Отменен';
+          order.editable = false;
+          UI.closeModal();
+          UI.toast('Заказ отменён');
+          setTimeout(() => { location.href = 'orders.html'; }, 700);
+        } }
+      ]
+    });
+  });
+})();
+</script>
+</body>
+</html>

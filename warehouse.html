@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мой склад — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="warehouse">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head">
+        <h1>Мой склад</h1>
+      </div>
+
+      <div class="tabs" id="tabs"></div>
+
+      <div class="toolbar">
+        <div class="search">
+          <input id="search" type="text" placeholder="Поиск по подписи, номеру GRM">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="9.4" cy="9.4" r="6.4" stroke-width="1.5" stroke="#626A73"/><path d="m14.2 14.2 4 4" stroke-width="1.5" stroke-linecap="round" stroke="#626A73"/></svg>
+        </div>
+        <span class="spacer"></span>
+        <button class="btn btn--grey btn--sm" id="sortBtn">Сначала старые</button>
+      </div>
+
+      <div class="grm-grid" id="grid"></div>
+      <div class="empty hidden" id="empty">
+        <h3 id="emptyTitle">На складе пока пусто</h3>
+        <p id="emptyText">Здесь будет информация о всех вещах, принятых на хранение</p>
+        <a class="btn btn--primary mt-16" href="send.html" style="display:inline-flex">Сдать вещи</a>
+      </div>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const DB = window.DB;
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  const emptyTitle = document.getElementById('emptyTitle');
+  const emptyText = document.getElementById('emptyText');
+  const tabsEl = document.getElementById('tabs');
+  const search = document.getElementById('search');
+  const sortBtn = document.getElementById('sortBtn');
+
+  const state = { tab: 'storage', q: '', sort: 'new' };
+
+  const TABS = [
+    { key: 'storage', label: 'Хранение', statuses: ['stored'], count: () => DB.grms.filter(g => g.status === 'stored').length },
+    { key: 'ordered', label: 'Возврат заказан', statuses: ['ordered'], count: () => DB.grms.filter(g => g.status === 'ordered').length },
+    { key: 'returned', label: 'Возвраты', statuses: ['returned'], count: () => DB.grms.filter(g => g.status === 'returned').length }
+  ];
+
+  function renderTabs() {
+    tabsEl.innerHTML = TABS.map(t => `
+      <button class="tab ${state.tab === t.key ? 'is-active' : ''}" data-tab="${t.key}">
+        ${t.label}:<span class="tab__count">${t.count()}</span>
+      </button>`).join('');
+    tabsEl.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+      state.tab = b.dataset.tab; renderTabs(); renderGrid();
+    }));
+  }
+
+  function items() {
+    const t = TABS.find(x => x.key === state.tab);
+    let list = DB.grms.filter(g => t.statuses.includes(g.status));
+    if (state.q.trim()) {
+      const q = state.q.trim().toLowerCase();
+      list = list.filter(g => g.no.toLowerCase().includes(q) || (g.title || '').toLowerCase().includes(q));
+    }
+    if (state.sort === 'new') list = [...list].reverse();
+    return list;
+  }
+
+  function renderGrid() {
+    const list = items();
+    grid.innerHTML = list.map(g => UI.grmCard(g)).join('');
+    const isSearchEmpty = state.q.trim() && list.length === 0;
+    empty.classList.toggle('hidden', list.length > 0);
+    if (list.length === 0) {
+      if (isSearchEmpty) {
+        emptyTitle.textContent = `К сожалению, мы не смогли найти «${state.q.trim()}»`;
+        emptyText.textContent = 'Проверьте, нет ли ошибки в запросе, или попробуйте более короткий запрос.';
+      } else if (state.tab === 'storage') {
+        emptyTitle.textContent = 'На складе пока пусто';
+        emptyText.textContent = 'Здесь будет информация о всех вещах, принятых на хранение';
+      } else {
+        emptyTitle.textContent = 'Здесь пока ничего нет';
+        emptyText.textContent = 'Как только появится информация, она отобразится в этом разделе.';
+      }
+    }
+
+    grid.querySelectorAll('.grm').forEach(card => {
+      const no = card.dataset.grm;
+      const g = DB.grms.find(x => x.no === no);
+      const photo = card.querySelector('[data-photo]');
+      if (photo) photo.addEventListener('click', (e) => {
+        if (e.target.closest('[data-stop]')) return;
+        openPhoto(g);
+      });
+      const title = card.querySelector('[data-title]');
+      if (title) title.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openTitle(g);
+      });
+    });
+  }
+
+  function openPhoto(g) {
+    UI.openModal({
+      title: `Грузоместо ${g.no}`,
+      text: g.title || 'Без подписи',
+      wide: true,
+      body: `<div style="height:260px;background:#EDF0F5;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-top:14px">
+        <div style="width:120px;height:120px;opacity:.5">${UI.I.box}</div>
+      </div><p class="hint mt-8">Фото вещей со склада (демо-заглушка)</p>`,
+      actions: [{ label: 'Закрыть', className: 'btn--ghost' }]
+    });
+  }
+
+  function openTitle(g) {
+    const body = UI.openModal({
+      title: 'Подпись к грузоместу',
+      text: `Комментарий для грузоместа № ${g.no}`,
+      body: `<div class="field mt-16"><label class="field__label">Что здесь хранится?</label>
+        <textarea class="textarea" id="grmTitle" placeholder="Например: зимние вещи">${UI.esc(g.title || '')}</textarea></div>`,
+      actions: [
+        { label: 'Отмена', className: 'btn--ghost' },
+        { label: 'Сохранить', onClick: () => {
+          const val = document.getElementById('grmTitle').value.trim();
+          g.title = val;
+          UI.closeModal();
+          renderGrid();
+          UI.toast('Подпись сохранена');
+        } }
+      ]
+    });
+  }
+
+  search.addEventListener('input', () => { state.q = search.value; renderGrid(); });
+  sortBtn.addEventListener('click', () => {
+    state.sort = state.sort === 'new' ? 'old' : 'new';
+    sortBtn.textContent = state.sort === 'new' ? 'Сначала старые' : 'Сначала новые';
+    renderGrid();
+  });
+
+  renderTabs();
+  renderGrid();
+})();
+</script>
+</body>
+</html>

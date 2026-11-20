@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вход — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="auth" data-page="login">
+
+<header class="auth__header">
+  <a href="index.html" class="row" style="gap:10px">
+    <span class="logo-mark">М</span>
+    <span class="logo-text">Марк <span>Пак</span></span>
+  </a>
+  <div class="auth__contacts">
+    <span>
+      <svg viewBox="0 0 20 20" fill="none"><path d="M10 18s6-5.1 6-9.3A6 6 0 0 0 4 8.7C4 12.9 10 18 10 18Z" stroke-width="1.4"/><circle cx="10" cy="8.6" r="2.3" stroke-width="1.4"/></svg>
+      Москва, г. Троицк, ул. Промышленная, 15
+    </span>
+    <span>
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke-width="1.4"/><path d="M2.2 10h15.6M10 2c2 2.1 3.2 5 3.2 8s-1.2 5.9-3.2 8c-2-2.1-3.2-5-3.2-8S8 4.1 10 2Z" stroke-width="1.4"/></svg>
+      markpack.ru
+    </span>
+    <span>+7 (499) 460-67-16</span>
+  </div>
+</header>
+
+<main class="auth__body">
+  <div>
+    <div class="auth__card">
+      <div class="row row--between" style="margin-bottom:12px">
+        <div class="auth__title">Вход</div>
+        <a href="#" style="font-size:14px" id="regLink">Создать аккаунт</a>
+      </div>
+      <p class="auth__sub">Вам придёт СМС с кодом для входа</p>
+      <p class="auth__small">*Только зарегистрированным пользователям</p>
+
+      <form id="loginForm" style="margin-top:18px">
+        <div class="field" id="phoneField">
+          <label class="field__label" for="phone">Ваш номер телефона</label>
+          <input class="input" id="phone" name="phone" type="tel" placeholder="+7 986 663 44 33" autocomplete="tel">
+        </div>
+        <div class="field hidden" id="codeField">
+          <label class="field__label" for="code">СМС код</label>
+          <input class="input" id="code" name="code" inputmode="numeric" maxlength="6" placeholder="6 цифр">
+          <p class="hint mt-8" id="resend">Отправить повторно: <span class="mono">60</span> сек.</p>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit" id="submitBtn">Получить код в СМС</button>
+      </form>
+      <p class="hint" style="margin-top:12px;text-align:center">Получая код для входа, вы соглашаетесь с политикой обработки персональных данных</p>
+    </div>
+    <p class="mt-16" style="font-size:14px">Нет аккаунта? <a href="#">Создать</a></p>
+  </div>
+
+  <div class="auth__art" aria-hidden="true">
+    <svg viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg">
+      <rect width="520" height="420" fill="#EFE9E3"/>
+      <circle cx="390" cy="96" r="110" fill="#E6DDD4"/>
+      <rect x="96" y="150" width="170" height="170" rx="10" fill="#D9C7B6"/>
+      <rect x="96" y="150" width="170" height="26" fill="#C9B6A4"/>
+      <path d="M96 176h170" stroke="#B7A190" stroke-width="2"/>
+      <path d="M181 150v170" stroke="#B7A190" stroke-width="2" opacity=".6"/>
+      <rect x="276" y="196" width="130" height="124" rx="8" fill="#CBB9A8"/>
+      <rect x="276" y="196" width="130" height="20" fill="#B9A492"/>
+      <path d="M341 196v124" stroke="#A8917E" stroke-width="2" opacity=".55"/>
+      <circle cx="181" cy="263" r="26" fill="#D92D2B"/>
+      <path d="M170 263h22M181 252v22" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M150 340h230" stroke="#C4B3A2" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+  </div>
+</main>
+
+<footer class="auth__footer">
+  <div class="auth__promo">
+    <h2>Управляйте своими вещами с комфортом</h2>
+    <p class="muted" style="font-size:14px">Сдавайте вещи по заявке, планируйте возврат и оплачивайте услуги онлайн</p>
+    <div class="promo-mock">
+      <div class="promo-mock__side">
+        <div class="row" style="gap:6px;margin-bottom:12px"><span class="logo-mark" style="width:22px;height:22px;font-size:11px;border-radius:6px">М</span><b style="font-size:12px">Марк Пак</b></div>
+        <div class="caption" style="background:#EDF0F5;border-radius:6px;padding:6px 8px;margin-bottom:4px">Мой склад</div>
+        <div class="caption" style="padding:6px 8px">Мои заказы</div>
+        <div class="caption" style="padding:6px 8px">Баланс и оплата</div>
+        <div class="caption" style="padding:6px 8px">Тарифы</div>
+      </div>
+      <div class="promo-mock__main">
+        <div class="row row--between" style="margin-bottom:10px">
+          <b style="font-size:13px">Мой склад</b>
+          <span class="chip chip--grey" style="font-size:10px">14 грузов</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="card" style="padding:8px"><div class="caption">На хранение</div><b style="font-size:12px">1 кг · 0.101 м³</b></div>
+          <div class="card" style="padding:8px"><div class="caption">На хранение</div><b style="font-size:12px">1 кг · 0.101 м³</b></div>
+          <div class="card" style="padding:8px"><div class="caption">На хранение</div><b style="font-size:12px">1 кг · 0.101 м³</b></div>
+          <div class="card" style="padding:8px"><div class="caption">На хранение</div><b style="font-size:12px">1 кг · 0.101 м³</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const form = document.getElementById('loginForm');
+  const phoneField = document.getElementById('phoneField');
+  const codeField = document.getElementById('codeField');
+  const btn = document.getElementById('submitBtn');
+  const phone = document.getElementById('phone');
+  const code = document.getElementById('code');
+  const resend = document.getElementById('resend');
+  let step = 'phone';
+  let timer;
+
+  document.getElementById('regLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    UI.toast('Регистрация — в следующей версии прототипа');
+  });
+
+  function startTimer() {
+    let left = 60;
+    clearInterval(timer);
+    resend.innerHTML = 'Отправить повторно: <span class="mono">60</span> сек.';
+    timer = setInterval(() => {
+      left -= 1;
+      if (left <= 0) {
+        clearInterval(timer);
+        resend.innerHTML = '<a href="#" id="resendLink">Отправить повторно</a>';
+        const link = document.getElementById('resendLink');
+        if (link) link.addEventListener('click', (e) => { e.preventDefault(); startTimer(); });
+        return;
+      }
+      resend.innerHTML = `Отправить повторно: <span class="mono">${left}</span> сек.`;
+    }, 1000);
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (step === 'phone') {
+      if (!phone.value.trim() || phone.value.replace(/\D/g, '').length < 10) {
+        phone.focus();
+        UI.toast('Введите номер телефона');
+        return;
+      }
+      step = 'code';
+      phoneField.classList.add('hidden');
+      codeField.classList.remove('hidden');
+      btn.textContent = 'Войти';
+      btn.disabled = true;
+      code.focus();
+      startTimer();
+      UI.toast('Код отправлен (демо: любые 6 цифр)');
+      return;
+    }
+    if (code.value.replace(/\D/g, '').length !== 6) {
+      UI.toast('Введите 6 цифр из СМС');
+      return;
+    }
+    location.href = 'warehouse.html';
+  });
+
+  code.addEventListener('input', () => {
+    btn.disabled = code.value.replace(/\D/g, '').length !== 6;
+  });
+})();
+</script>
+</body>
+</html>

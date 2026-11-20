@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тарифы — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="prices">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head"><h1>Тарифы</h1></div>
+
+      <div class="tabs" id="tabs">
+        <button class="tab is-active" data-tab="storage">Хранение</button>
+        <button class="tab" data-tab="other">Другие услуги</button>
+      </div>
+
+      <section id="tabStorage">
+        <div class="price-grid" id="priceGrid"></div>
+        <p class="hint mt-16">* Месяц — 30 календарных дней (п. 9.4.1 договора-оферты). Цены указаны без НДС, +7% НДС.</p>
+      </section>
+
+      <section id="tabOther" class="hidden">
+        <div class="card" style="max-width:720px">
+          <h3>Доставка</h3>
+          <div class="delivery-row">
+            <div>
+              <b style="color:var(--ink)">по Москве</b>
+              <p class="hint mt-8">Единая стоимость вне зависимости от сложности и габаритов вещей</p>
+            </div>
+            <div style="text-align:right"><b>2 675 ₽ / м³</b><div class="caption">для юридических лиц</div></div>
+          </div>
+          <div class="delivery-row">
+            <div>
+              <b style="color:var(--ink)">за МКАД</b>
+              <p class="hint mt-8">Кроме ТиНАО, Подольска и Климовска</p>
+            </div>
+            <div style="text-align:right"><b>+ 139,1 ₽ / км</b><div class="caption">к стоимости по Москве</div></div>
+          </div>
+          <div class="section__title mt-24">Ограничения</div>
+          <ul style="padding-left:18px;list-style:disc;color:var(--ink-2);font-size:14px;line-height:1.7">
+            <li>Вес одного грузового места — не более 100 кг</li>
+            <li>Не перевозим пианино и антиквариат</li>
+            <li>Не храним горючие и взрывоопасные материалы, продукты, растения и животных</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const DB = window.DB;
+  const grid = document.getElementById('priceGrid');
+  const individual = DB.user.type === 'individual';
+
+  if (individual) {
+    grid.innerHTML = DB.tariffsIndividual.map(t => `
+      <div class="price-card">
+        <div class="price-card__num">${t.n === '—' ? 'Персональный тариф' : 'Тариф ' + t.n}</div>
+        <div class="price-card__vol">${UI.esc(t.title)}</div>
+        <div class="price-card__sum">${t.price === 'Индивидуально' ? 'Индивидуально' : t.price + ' ₽'}</div>
+        <div class="price-card__note">${t.price === 'Индивидуально' ? 'объём — любой' : 'в месяц*, объём ' + t.vol}</div>
+      </div>`).join('');
+  } else {
+    grid.innerHTML = DB.tariffsCompany.map(t => `
+      <div class="price-card">
+        <div class="price-card__num">Тарриф ${t.n}</div>
+        <div class="price-card__vol">${t.range}</div>
+        <div class="price-card__sum">${t.price} ₽</div>
+        <div class="price-card__note">за 1 м³ +7% НДС*</div>
+      </div>`).join('');
+  }
+
+  document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('is-active', x === b));
+    document.getElementById('tabStorage').classList.toggle('hidden', b.dataset.tab !== 'storage');
+    document.getElementById('tabOther').classList.toggle('hidden', b.dataset.tab !== 'other');
+  }));
+})();
+</script>
+</body>
+</html>

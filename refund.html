@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Р—Р°Р±СЂР°С‚СЊ РІРµС‰Рё вЂ” РњР°СЂРє РџР°Рє</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="warehouse" data-actions="off">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+
+      <!-- РЁР°Рі 1: РІС‹Р±РѕСЂ РіСЂСѓР·РѕРјРµСЃС‚ -->
+      <section id="stepSelect">
+        <div class="page-head">
+          <a class="back-btn" href="warehouse.html">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M16 10H5M9.5 4.5 4 10l5.5 5.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            РќР°Р·Р°Рґ
+          </a>
+          <h1>РћС„РѕСЂРјРёС‚СЊ РІРѕР·РІСЂР°С‚</h1>
+        </div>
+
+        <div class="toolbar" style="align-items:center">
+          <div class="card card--flat" style="display:flex;align-items:center;gap:14px;padding:8px 10px 8px 14px">
+            <span id="selInfo">Р’С‹Р±СЂР°РЅРѕ: <b>0</b> (0 С€С‚.)</span>
+            <button class="btn btn--primary btn--sm" id="toForm" disabled>РћС„РѕСЂРјРёС‚СЊ в†’</button>
+          </div>
+          <span class="spacer"></span>
+          <div class="search">
+            <input id="search" type="text" placeholder="РџРѕРёСЃРє РїРѕ РїРѕРґРїРёСЃРё, РЅРѕРјРµСЂСѓ GRM">
+            <svg viewBox="0 0 20 20" fill="none"><circle cx="9.4" cy="9.4" r="6.4" stroke-width="1.5" stroke="#626A73"/><path d="m14.2 14.2 4 4" stroke-width="1.5" stroke-linecap="round" stroke="#626A73"/></svg>
+          </div>
+          <button class="btn btn--link" id="selectAll">Р’С‹Р±СЂР°С‚СЊ РІСЃРµ</button>
+          <button class="btn btn--link" id="clearAll">РћС‚РјРµРЅРёС‚СЊ</button>
+        </div>
+
+        <div class="grm-grid" id="grid"></div>
+        <div class="empty hidden" id="empty">
+          <h3>РќРµС‡РµРіРѕ РІС‹Р±РёСЂР°С‚СЊ</h3>
+          <p>РќР° С…СЂР°РЅРµРЅРёРё РЅРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… РіСЂСѓР·РѕРјРµСЃС‚.</p>
+        </div>
+      </section>
+
+      <!-- РЁР°Рі 2: РѕС„РѕСЂРјР»РµРЅРёРµ -->
+      <section id="stepForm" class="hidden">
+        <div class="page-head">
+          <button class="back-btn" id="backToSelect">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M16 10H5M9.5 4.5 4 10l5.5 5.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            РќР°Р·Р°Рґ
+          </button>
+          <h1>Р—Р°Р±СЂР°С‚СЊ РІРµС‰Рё</h1>
+        </div>
+
+        <form class="form-card" id="refundForm">
+          <div class="section__title">Р“СЂСѓР·</div>
+          <div class="card card--flat mb-24">
+            <div class="kv"><span>РљРѕР»РёС‡РµСЃС‚РІРѕ</span><b id="sumQty">0 С€С‚</b></div>
+            <div class="kv"><span>РћР±С‰РёР№ РІРµСЃ</span><b id="sumWeight">0 РєРі</b></div>
+            <div class="kv"><span>РћР±С‰РёР№ РѕР±СЉС‘Рј</span><b id="sumVolume">0 РјВі</b></div>
+          </div>
+
+          <div class="section__title">Р’Р°Рј РЅСѓР¶РЅР° РґРѕСЃС‚Р°РІРєР°?</div>
+          <div class="radio-cards mb-24">
+            <div class="radio-card is-active" data-delivery="self">
+              <div class="radio-card__top"><span class="radio-dot"></span>Р—Р°Р±РµСЂСѓ СЃР°Рј(Р°)</div>
+              <p>Р—Р°Р±РёСЂР°Р№С‚Рµ РІРµС‰Рё СЃРѕ СЃРєР»Р°РґР° СЃ 9 РґРѕ 18 С‡Р°СЃРѕРІ РїРѕ Р°РґСЂРµСЃСѓ: Рі. РњРѕСЃРєРІР°, Рі. РўСЂРѕРёС†Рє, СѓР». РџСЂРѕРјС‹С€Р»РµРЅРЅР°СЏ, 15</p>
+            </div>
+            <div class="radio-card" data-delivery="need">
+              <div class="radio-card__top"><span class="radio-dot"></span>РќСѓР¶РЅР° РґРѕСЃС‚Р°РІРєР°</div>
+              <p>РџРѕСЃР»Рµ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ Р·Р°РіСЂСѓР·РёРј РІР°С€Рё РІРµС‰Рё Рё РґРѕСЃС‚Р°РІРёРј РёС… РѕР±СЂР°С‚РЅРѕ РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ Р°РґСЂРµСЃСѓ</p>
+            </div>
+          </div>
+
+          <div id="deliveryBlock" class="hidden">
+            <div class="section__title">РљСѓРґР° РґРѕСЃС‚Р°РІРёС‚СЊ РіСЂСѓР·</div>
+            <div class="card card--flat mb-24 row row--between">
+              <div>
+                <b style="font-size:14px">Рі. РњРѕСЃРєРІР°, СѓР». РџСЂРѕС„СЃРѕСЋР·РЅР°СЏ, 15</b>
+                <div class="caption mt-8">РїРѕРґСЉРµР·Рґ 2, СЌС‚Р°Р¶ 5, РґРѕРјРѕС„РѕРЅ 15, Р»РёС„С‚ РџР°СЃСЃР°Р¶РёСЂСЃРєРёР№</div>
+              </div>
+              <button type="button" class="btn btn--ghost btn--sm" id="changeAddress">РР·РјРµРЅРёС‚СЊ</button>
+            </div>
+
+            <div class="section__title">РљС‚Рѕ Р±СѓРґРµС‚ РїСЂРёРЅРёРјР°С‚СЊ РіСЂСѓР·?</div>
+            <div class="form-row">
+              <div class="field">
+                <label class="field__label">Р¤РРћ*</label>
+                <input class="input" value="РЈСЂС‹РІР°РµРІР° РќР°С‚Р°Р»РёСЏ РђР»РµРєСЃР°РЅРґСЂРѕРІРЅР°" required>
+              </div>
+              <div class="field">
+                <label class="field__label">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°*</label>
+                <input class="input" value="+7 999 788-13-11" required>
+              </div>
+            </div>
+            <label class="check mb-16"><input type="checkbox">РЎРѕРѕР±С‰РµРЅРёСЏ РІРјРµСЃС‚Рѕ Р·РІРѕРЅРєРѕРІ</label>
+
+            <div class="section__title">РЎС‚РѕРёРјРѕСЃС‚СЊ РґРѕСЃС‚Р°РІРєРё</div>
+            <div class="card card--flat mb-8">
+              <div class="kv"><span>РЎС‚РѕРёРјРѕСЃС‚СЊ 1 РјВі</span><b>2 675 в‚Ѕ</b></div>
+              <div class="kv"><span>Р’Р°С€ РѕР±СЉС‘Рј</span><b id="costVolume">0 РјВі</b></div>
+              <div class="divider" style="margin:12px 0"></div>
+              <div class="kv"><span>РС‚РѕРіРѕ Рє РѕРїР»Р°С‚Рµ</span><b class="stat-big" style="font-size:20px" id="costTotal">0 в‚Ѕ</b></div>
+            </div>
+            <p class="hint mb-24">Р”РѕСЃС‚Р°РІРєСѓ РЅРµРѕР±С…РѕРґРёРјРѕ РѕРїР»Р°С‚РёС‚СЊ РґРѕ 9:00 РґРЅСЏ РґРѕСЃС‚Р°РІРєРё, РёРЅР°С‡Рµ РІР°С€ Р·Р°РєР°Р· Р±СѓРґРµС‚ РѕС‚РјРµРЅС‘РЅ. РћРїР»Р°С‚РёС‚СЊ РїРѕР·Р¶Рµ РјРѕР¶РЅРѕ РІ СЂР°Р·РґРµР»Рµ В«Р‘Р°Р»Р°РЅСЃ Рё РѕРїР»Р°С‚Р°В».</p>
+          </div>
+
+          <div class="section__title">Р”Р°С‚Р° Рё РІСЂРµРјСЏ</div>
+          <div class="form-row">
+            <div class="field">
+              <label class="field__label">Р”Р°С‚Р°*</label>
+              <select class="select" id="dateSelect"></select>
+            </div>
+            <div class="field">
+              <label class="field__label">Р’СЂРµРјСЏ*</label>
+              <select class="select" id="timeSelect">
+                <option>09:00 вЂ“ 13:00</option>
+                <option>13:00 вЂ“ 20:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section__title">РљРѕРјРјРµРЅС‚Р°СЂРёР№</div>
+          <div class="field">
+            <textarea class="textarea" placeholder="РћСЃС‚Р°РІСЊС‚Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РєР°Р·Сѓ"></textarea>
+          </div>
+
+          <div class="row" style="justify-content:flex-end">
+            <button type="submit" class="btn btn--primary btn--lg" style="min-width:240px">РћС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ</button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const DB = window.DB;
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  const selInfo = document.getElementById('selInfo');
+  const toForm = document.getElementById('toForm');
+  const search = document.getElementById('search');
+
+  const selected = new Map(); // no -> qty
+  let delivery = 'self';
+  let query = '';
+
+  const stored = () => DB.grms.filter(g => g.status === 'stored');
+
+  function render() {
+    const list = stored().filter(g => !query || g.no.toLowerCase().includes(query) || (g.title || '').toLowerCase().includes(query));
+    grid.innerHTML = list.map(g => UI.grmCard(g, { selectable: true, selected: selected.get(g.no) || 0 })).join('');
+    empty.classList.toggle('hidden', list.length > 0);
+
+    grid.querySelectorAll('.grm').forEach(card => {
+      const no = card.dataset.grm;
+      const g = DB.grms.find(x => x.no === no);
+      const qtyInput = card.querySelector('[data-qty]');
+
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('[data-stop]')) return;
+        if (selected.has(no)) selected.delete(no);
+        else selected.set(no, g.qty);
+        sync();
+      });
+
+      const dec = card.querySelector('[data-dec]');
+      const inc = card.querySelector('[data-inc]');
+      if (dec) dec.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cur = selected.get(no) || g.qty;
+        if (cur > 1) { selected.set(no, cur - 1); sync(); }
+      });
+      if (inc) inc.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cur = selected.get(no) || g.qty;
+        if (cur < g.qty) { selected.set(no, cur + 1); sync(); }
+      });
+      if (qtyInput) qtyInput.addEventListener('click', (e) => e.stopPropagation());
+      if (qtyInput) qtyInput.addEventListener('change', () => {
+        let v = Math.max(1, Math.min(g.qty, Number(qtyInput.value) || 1));
+        selected.set(no, v); sync();
+      });
+
+      const title = card.querySelector('[data-title]');
+      if (title) title.addEventListener('click', (e) => { e.stopPropagation(); openTitle(g); });
+    });
+
+    syncCounters();
+  }
+
+  function syncCounters() {
+    const totalQty = [...selected.values()].reduce((a, b) => a + b, 0);
+    selInfo.innerHTML = `Р’С‹Р±СЂР°РЅРѕ: <b>${selected.size}</b> (${totalQty} С€С‚.)`;
+    toForm.disabled = selected.size === 0;
+  }
+
+  function sync() {
+    // preserve scroll position by re-rendering only selection classes and counters
+    grid.querySelectorAll('.grm').forEach(card => {
+      const no = card.dataset.grm;
+      const g = DB.grms.find(x => x.no === no);
+      const isSel = selected.has(no);
+      card.classList.toggle('is-selected', isSel);
+      const input = card.querySelector('[data-qty]');
+      if (input && isSel) input.value = selected.get(no);
+    });
+    syncCounters();
+  }
+
+  function openTitle(g) {
+    UI.openModal({
+      title: 'РџРѕРґРїРёСЃСЊ Рє РіСЂСѓР·РѕРјРµСЃС‚Сѓ',
+      text: `РљРѕРјРјРµРЅС‚Р°СЂРёР№ РґР»СЏ РіСЂСѓР·РѕРјРµСЃС‚Р° в„– ${g.no}`,
+      body: `<div class="field mt-16"><label class="field__label">Р§С‚Рѕ Р·РґРµСЃСЊ С…СЂР°РЅРёС‚СЃСЏ?</label>
+        <textarea class="textarea" id="grmTitle">${UI.esc(g.title || '')}</textarea></div>`,
+      actions: [
+        { label: 'РћС‚РјРµРЅР°', className: 'btn--ghost' },
+        { label: 'РЎРѕС…СЂР°РЅРёС‚СЊ', onClick: () => {
+          g.title = document.getElementById('grmTitle').value.trim();
+          UI.closeModal();
+          render();
+          UI.toast('РџРѕРґРїРёСЃСЊ СЃРѕС…СЂР°РЅРµРЅР°');
+        } }
+      ]
+    });
+  }
+
+  search.addEventListener('input', () => { query = search.value.trim().toLowerCase(); render(); });
+
+  document.getElementById('selectAll').addEventListener('click', () => {
+    stored().forEach(g => selected.set(g.no, g.qty));
+    sync();
+  });
+  document.getElementById('clearAll').addEventListener('click', () => {
+    selected.clear(); sync();
+  });
+
+  toForm.addEventListener('click', () => {
+    document.getElementById('stepSelect').classList.add('hidden');
+    document.getElementById('stepForm').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateTotals();
+  });
+  document.getElementById('backToSelect').addEventListener('click', () => {
+    document.getElementById('stepForm').classList.add('hidden');
+    document.getElementById('stepSelect').classList.remove('hidden');
+  });
+
+  document.querySelectorAll('[data-delivery]').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('[data-delivery]').forEach(c => c.classList.remove('is-active'));
+      card.classList.add('is-active');
+      delivery = card.dataset.delivery;
+      document.getElementById('deliveryBlock').classList.toggle('hidden', delivery !== 'need');
+      updateTotals();
+    });
+  });
+
+  document.getElementById('changeAddress').addEventListener('click', () => {
+    UI.toast('Р’С‹Р±РѕСЂ Р°РґСЂРµСЃР° вЂ” РІ СЃР»РµРґСѓСЋС‰РµР№ РІРµСЂСЃРёРё РїСЂРѕС‚РѕС‚РёРїР°');
+  });
+
+  // Р”Р°С‚С‹: СЃРµРіРѕРґРЅСЏ + 5 РґРЅРµР№
+  const dateSelect = document.getElementById('dateSelect');
+  const months = ['СЏРЅРІР°СЂСЏ', 'С„РµРІСЂР°Р»СЏ', 'РјР°СЂС‚Р°', 'Р°РїСЂРµР»СЏ', 'РјР°СЏ', 'РёСЋРЅСЏ', 'РёСЋР»СЏ', 'Р°РІРіСѓСЃС‚Р°', 'СЃРµРЅС‚СЏР±СЂСЏ', 'РѕРєС‚СЏР±СЂСЏ', 'РЅРѕСЏР±СЂСЏ', 'РґРµРєР°Р±СЂСЏ'];
+  const today = new Date();
+  for (let i = 1; i <= 5; i++) {
+    const d = new Date(today.getTime() + i * 86400000);
+    const opt = document.createElement('option');
+    opt.textContent = `${d.getDate()} ${months[d.getMonth()]}`;
+    dateSelect.appendChild(opt);
+  }
+
+  function totals() {
+    let qty = 0, weight = 0, volume = 0;
+    selected.forEach((q, no) => {
+      const g = DB.grms.find(x => x.no === no);
+      if (!g) return;
+      qty += q; weight += g.weight * q; volume += g.volume * q;
+    });
+    return { qty, weight, volume };
+  }
+
+  function updateTotals() {
+    const t = totals();
+    document.getElementById('sumQty').textContent = `${t.qty} С€С‚`;
+    document.getElementById('sumWeight').textContent = `${Number(t.weight.toFixed(2))} РєРі`;
+    document.getElementById('sumVolume').textContent = `${t.volume.toFixed(3)} РјВі`;
+    document.getElementById('costVolume').textContent = `${t.volume.toFixed(3)} РјВі`;
+    document.getElementById('costTotal').textContent = `${UI.money(Math.round(t.volume * 2675))} в‚Ѕ`;
+  }
+
+  document.getElementById('refundForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const t = totals();
+    UI.openModal({
+      icon: 'ok',
+      title: 'Р—Р°СЏРІРєР° СЃРѕР·РґР°РЅР°',
+      text: `РњС‹ РїРѕР»СѓС‡РёР»Рё Р·Р°СЏРІРєСѓ РЅР° РІРѕР·РІСЂР°С‚: ${selected.size} РјРµСЃС‚, ${t.qty} С€С‚. РЎС‚Р°С‚СѓСЃ Р·Р°РєР°Р·Р° РјРѕР¶РЅРѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ РІ СЂР°Р·РґРµР»Рµ В«РњРѕРё Р·Р°РєР°Р·С‹В».`,
+      actions: [{ label: 'РџРµСЂРµР№С‚Рё Рє Р·Р°РєР°Р·Р°Рј', onClick: () => { location.href = 'orders.html'; } }]
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

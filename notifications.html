@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Уведомления — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="notifications">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head page-head--between">
+        <h1>Мои уведомления</h1>
+        <button class="btn btn--grey btn--sm" id="sortBtn">Сначала старые</button>
+      </div>
+
+      <div class="card" style="max-width:640px">
+        <div class="empty" style="padding:40px 16px">
+          <h3>У вас пока нет уведомлений</h3>
+          <p class="mt-8">Здесь появятся сообщения о статусах заказов, счетах и приёмке вещей.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const btn = document.getElementById('sortBtn');
+  let order = 'old';
+  btn.addEventListener('click', () => {
+    order = order === 'old' ? 'new' : 'old';
+    btn.textContent = order === 'old' ? 'Сначала старые' : 'Сначала новые';
+    UI.toast('Сортировка изменена');
+  });
+})();
+</script>
+</body>
+</html>

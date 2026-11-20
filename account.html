@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мой аккаунт — Марк Пак</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="account">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head"><h1>Мой аккаунт</h1></div>
+
+      <div class="account-grid">
+        <div class="card">
+          <div id="viewMode">
+            <h3 class="mb-12">Данные аккаунта</h3>
+            <div id="dataRows"></div>
+            <button class="btn btn--ghost mt-16" id="editBtn">Изменить</button>
+          </div>
+
+          <form id="editMode" class="hidden">
+            <h3 class="mb-12">Изменить данные</h3>
+            <div class="field"><label class="field__label">ФИО*</label><input class="input" id="fio" required></div>
+            <div class="form-row">
+              <div class="field"><label class="field__label">Email</label><input class="input" id="email" type="email" required></div>
+              <div class="field"><label class="field__label">Телефон</label><input class="input" id="phone" disabled></div>
+            </div>
+            <div class="field"><label class="field__label">Название организации</label><input class="input" id="company"></div>
+            <div class="form-row">
+              <div class="field"><label class="field__label">ИНН</label><input class="input" id="inn"></div>
+              <div class="field"><label class="field__label">КПП</label><input class="input" id="kpp"></div>
+            </div>
+            <div class="field"><label class="field__label">Юридический адрес</label><input class="input" id="legal"></div>
+            <div class="field"><label class="field__label">Почтовый адрес</label><input class="input" id="postal"></div>
+            <div class="row" style="justify-content:flex-end;gap:10px">
+              <button type="button" class="btn btn--ghost" id="cancelEdit">Отмена</button>
+              <button type="submit" class="btn btn--primary" style="min-width:180px">Сохранить</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 class="mb-12">Действия с аккаунтом</h3>
+          <a class="btn btn--ghost btn--block mb-12" href="index.html">Выйти</a>
+          <button class="btn btn--link" id="deleteBtn" style="color:var(--primary)">Удалить аккаунт</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  const u = window.DB.user;
+  const rows = document.getElementById('dataRows');
+
+  function render() {
+    const items = [
+      ['ФИО*', u.name],
+      ['Телефон', u.phone],
+      ['Email', u.email],
+      ['Название организации', u.company],
+      ['ИНН', u.inn],
+      ['КПП', u.kpp],
+      ['Юридический адрес', 'г. Москва, ул. Профсоюзная, 15'],
+      ['Почтовый адрес', 'г. Москва, ул. Профсоюзная, 15']
+    ];
+    rows.innerHTML = items.map(([k, v]) => `<div class="data-row"><span>${UI.esc(k)}</span><b>${UI.esc(v)}</b></div>`).join('');
+  }
+  render();
+
+  const view = document.getElementById('viewMode');
+  const edit = document.getElementById('editMode');
+
+  function fill() {
+    document.getElementById('fio').value = u.name;
+    document.getElementById('email').value = u.email;
+    document.getElementById('phone').value = u.phone;
+    document.getElementById('company').value = u.company;
+    document.getElementById('inn').value = u.inn;
+    document.getElementById('kpp').value = u.kpp;
+    document.getElementById('legal').value = 'г. Москва, ул. Профсоюзная, 15';
+    document.getElementById('postal').value = 'г. Москва, ул. Профсоюзная, 15';
+  }
+
+  document.getElementById('editBtn').addEventListener('click', () => {
+    fill();
+    view.classList.add('hidden');
+    edit.classList.remove('hidden');
+  });
+
+  document.getElementById('cancelEdit').addEventListener('click', () => {
+    edit.classList.add('hidden');
+    view.classList.remove('hidden');
+  });
+
+  edit.addEventListener('submit', (e) => {
+    e.preventDefault();
+    u.name = document.getElementById('fio').value.trim();
+    u.email = document.getElementById('email').value.trim();
+    u.company = document.getElementById('company').value.trim();
+    u.inn = document.getElementById('inn').value.trim();
+    u.kpp = document.getElementById('kpp').value.trim();
+    render();
+    edit.classList.add('hidden');
+    view.classList.remove('hidden');
+    UI.toast('Данные сохранены');
+  });
+
+  document.getElementById('deleteBtn').addEventListener('click', () => {
+    UI.openModal({
+      title: 'Удалить аккаунт?',
+      text: 'Будет сформирован запрос на удаление аккаунта. Данные будут удалены в течение 24 часов, восстановить их будет невозможно.',
+      icon: 'warn',
+      actions: [
+        { label: 'Нет', className: 'btn--ghost' },
+        { label: 'Да, удалить', className: 'btn--primary', onClick: () => {
+          UI.closeModal();
+          UI.openModal({
+            icon: 'ok',
+            title: 'Запрос успешно создан',
+            text: 'Мы удалим данные в течение 24 часов.',
+            actions: [{ label: 'Хорошо', onClick: () => { location.href = 'index.html'; } }]
+          });
+        } }
+      ]
+    });
+  });
+})();
+</script>
+</body>
+</html>

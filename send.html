@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>РЎРґР°С‚СЊ РІРµС‰Рё вЂ” РњР°СЂРє РџР°Рє</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="warehouse" data-actions="off">
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="page-head">
+        <a class="back-btn" href="warehouse.html">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M16 10H5M9.5 4.5 4 10l5.5 5.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          РќР°Р·Р°Рґ
+        </a>
+        <h1>РЎРґР°С‚СЊ РІРµС‰Рё РЅР° С…СЂР°РЅРµРЅРёРµ</h1>
+      </div>
+
+      <form class="form-card" id="sendForm">
+        <div class="section__title">Р’Р°Рј РЅСѓР¶РЅР° РґРѕСЃС‚Р°РІРєР°?</div>
+        <div class="radio-cards mb-24">
+          <div class="radio-card is-active" data-mode="self">
+            <div class="radio-card__top"><span class="radio-dot"></span>Р”РѕСЃС‚Р°РІР»СЋ СЃР°Рј(Р°)</div>
+            <p>РџСЂРёРІРѕР·РёС‚Рµ РІРµС‰Рё РЅР° СЃРєР»Р°Рґ СЃ 9 РґРѕ 18 С‡Р°СЃРѕРІ РїРѕ Р°РґСЂРµСЃСѓ: Рі. РњРѕСЃРєРІР°, Рі. РўСЂРѕРёС†Рє, СѓР». РџСЂРѕРјС‹С€Р»РµРЅРЅР°СЏ, 15</p>
+          </div>
+          <div class="radio-card" data-mode="delivery">
+            <div class="radio-card__top"><span class="radio-dot"></span>РќСѓР¶РЅР° РґРѕСЃС‚Р°РІРєР°</div>
+            <p>РџРѕСЃР»Рµ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ РјС‹ РїСЂРёРµРґРµРј, Р·Р°РјРµСЂРёРј, РѕС„РѕСЂРјРёРј Рё Р±РµР·РѕРїР°СЃРЅРѕ СѓРІРµР·С‘Рј РІР°С€Рё РІРµС‰Рё РЅР° С…СЂР°РЅРµРЅРёРµ</p>
+          </div>
+        </div>
+
+        <!-- РЎР°РјРѕРїСЂРёРІРѕР·: РїСЂРѕРїСѓСЃРє -->
+        <div id="passBlock">
+          <div class="section__title">РџСЂРѕРїСѓСЃРє РЅР° СЃРєР»Р°Рґ</div>
+          <p class="hint mb-16">Р•СЃР»Рё РІР°Рј РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅРµ РёР·РІРµСЃС‚РЅС‹ РґР°РЅРЅС‹Рµ РІРѕРґРёС‚РµР»СЏ, РІС‹ СЃРјРѕР¶РµС‚Рµ Р·Р°РїРѕР»РЅРёС‚СЊ РёС… РїРѕР·Р¶Рµ РІ СЂР°Р·РґРµР»Рµ В«РњРѕРё Р·Р°РєР°Р·С‹В».</p>
+          <div id="passList"></div>
+          <button type="button" class="btn btn--ghost btn--sm mb-24" id="addPass">+ Р”РѕР±Р°РІРёС‚СЊ РїСЂРѕРїСѓСЃРє</button>
+        </div>
+
+        <!-- Р”РѕСЃС‚Р°РІРєР°: Р°РґСЂРµСЃ Рё РєРѕРЅС‚Р°РєС‚ -->
+        <div id="deliveryFields" class="hidden">
+          <div class="section__title">РћС‚РєСѓРґР° Р·Р°Р±СЂР°С‚СЊ РіСЂСѓР·</div>
+          <div class="card card--flat mb-24 row row--between">
+            <div>
+              <b style="font-size:14px">Рі. РњРѕСЃРєРІР°, СѓР». РџСЂРѕС„СЃРѕСЋР·РЅР°СЏ, 15</b>
+              <div class="caption mt-8">РїРѕРґСЉРµР·Рґ 2, СЌС‚Р°Р¶ 5, РґРѕРјРѕС„РѕРЅ 15, Р»РёС„С‚ РџР°СЃСЃР°Р¶РёСЂСЃРєРёР№</div>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm" id="changeAddress">РР·РјРµРЅРёС‚СЊ</button>
+          </div>
+
+          <div class="section__title">РљС‚Рѕ Р±СѓРґРµС‚ РїРµСЂРµРґР°РІР°С‚СЊ РіСЂСѓР·?</div>
+          <div class="form-row">
+            <div class="field">
+              <label class="field__label">Р¤РРћ РєРѕРЅС‚Р°РєС‚РЅРѕРіРѕ Р»РёС†Р°*</label>
+              <input class="input" value="РЈСЂС‹РІР°РµРІР° РќР°С‚Р°Р»РёСЏ РђР»РµРєСЃР°РЅРґСЂРѕРІРЅР°" required>
+            </div>
+            <div class="field">
+              <label class="field__label">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°*</label>
+              <input class="input" value="+7 999 788-13-11" required>
+            </div>
+          </div>
+          <label class="check mb-24"><input type="checkbox">РЎРѕРѕР±С‰РµРЅРёСЏ РІРјРµСЃС‚Рѕ Р·РІРѕРЅРєРѕРІ</label>
+        </div>
+
+        <div class="section__title">Р”Р°С‚Р° Рё РІСЂРµРјСЏ</div>
+        <div class="form-row">
+          <div class="field">
+            <label class="field__label">Р”Р°С‚Р°*</label>
+            <select class="select" id="dateSelect"></select>
+          </div>
+          <div class="field">
+            <label class="field__label">Р’СЂРµРјСЏ*</label>
+            <select class="select">
+              <option>09:00 вЂ“ 13:00</option>
+              <option>13:00 вЂ“ 20:00</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section__title">РЎС‚РёРєРµСЂС‹</div>
+        <p class="hint mb-12">Р—Р°РіСЂСѓР·РёС‚Рµ СЃС‚РёРєРµСЂС‹ Рё СѓРєР°Р¶РёС‚Рµ РёС… РєРѕР»РёС‡РµСЃС‚РІРѕ РґР»СЏ РїРµС‡Р°С‚Рё, РґРѕ 50 СЃС‚РёРєРµСЂРѕРІ</p>
+        <label class="card card--flat mb-24" style="display:flex;align-items:center;gap:12px;cursor:pointer;border-style:dashed">
+          <span style="width:40px;height:40px;border-radius:8px;background:#EDF0F5;display:flex;align-items:center;justify-content:center;font-size:20px">+</span>
+          <span>
+            <b style="font-size:14px;display:block">Р”РѕР±Р°РІРёС‚СЊ РґРѕРєСѓРјРµРЅС‚</b>
+            <span class="caption">РќР°Р¶РјРёС‚Рµ РёР»Рё РїРµСЂРµС‚Р°С‰РёС‚Рµ С„Р°Р№Р»С‹ В· PDF, РґРѕ 50 РњР‘</span>
+          </span>
+          <input type="file" id="stickerInput" accept="application/pdf" multiple class="hidden">
+        </label>
+        <p class="hint mb-24" id="stickerInfo"></p>
+
+        <div class="section__title">РљРѕРјРјРµРЅС‚Р°СЂРёР№</div>
+        <div class="field">
+          <textarea class="textarea" placeholder="РћСЃС‚Р°РІСЊС‚Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РєР°Р·Сѓ"></textarea>
+        </div>
+
+        <div class="row" style="justify-content:flex-end">
+          <button type="submit" class="btn btn--primary btn--lg" style="min-width:240px">РћС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ</button>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+<nav class="bottom-nav" id="bottomNav"></nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+(() => {
+  let mode = 'self';
+  const passList = document.getElementById('passList');
+
+  function passRow(i) {
+    return `<div class="form-row" data-pass="${i}">
+      <div class="field"><label class="field__label">Р¤РРћ РІРѕРґРёС‚РµР»СЏ</label><input class="input" placeholder="РРІР°РЅРѕРІ РРІР°РЅ РРІР°РЅРѕРІРёС‡"></div>
+      <div class="field"><label class="field__label">Р“РѕСЃРЅРѕРјРµСЂ Р°РІС‚РѕРјРѕР±РёР»СЏ</label><input class="input" placeholder="Рђ 123 Р’РЎ 77"></div>
+    </div>`;
+  }
+
+  function renderPasses() {
+    passList.innerHTML = passRow(0) + (passList.dataset.extra === 'full' ? passRow(1) : '');
+  }
+  renderPasses();
+
+  document.getElementById('addPass').addEventListener('click', () => {
+    if (passList.dataset.extra === 'full') return;
+    passList.dataset.extra = 'full';
+    renderPasses();
+    document.getElementById('addPass').classList.add('hidden');
+  });
+
+  document.querySelectorAll('[data-mode]').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('[data-mode]').forEach(c => c.classList.remove('is-active'));
+      card.classList.add('is-active');
+      mode = card.dataset.mode;
+      document.getElementById('passBlock').classList.toggle('hidden', mode !== 'self');
+      document.getElementById('deliveryFields').classList.toggle('hidden', mode !== 'delivery');
+    });
+  });
+
+  document.getElementById('changeAddress').addEventListener('click', () => {
+    UI.toast('Р’С‹Р±РѕСЂ Р°РґСЂРµСЃР° вЂ” РІ СЃР»РµРґСѓСЋС‰РµР№ РІРµСЂСЃРёРё РїСЂРѕС‚РѕС‚РёРїР°');
+  });
+
+  const dateSelect = document.getElementById('dateSelect');
+  const months = ['СЏРЅРІР°СЂСЏ', 'С„РµРІСЂР°Р»СЏ', 'РјР°СЂС‚Р°', 'Р°РїСЂРµР»СЏ', 'РјР°СЏ', 'РёСЋРЅСЏ', 'РёСЋР»СЏ', 'Р°РІРіСѓСЃС‚Р°', 'СЃРµРЅС‚СЏР±СЂСЏ', 'РѕРєС‚СЏР±СЂСЏ', 'РЅРѕСЏР±СЂСЏ', 'РґРµРєР°Р±СЂСЏ'];
+  const today = new Date();
+  for (let i = 1; i <= 5; i++) {
+    const d = new Date(today.getTime() + i * 86400000);
+    const opt = document.createElement('option');
+    opt.textContent = `${d.getDate()} ${months[d.getMonth()]}`;
+    dateSelect.appendChild(opt);
+  }
+
+  const input = document.getElementById('stickerInput');
+  input.addEventListener('change', () => {
+    const n = input.files.length;
+    document.getElementById('stickerInfo').textContent = n
+      ? `Р’С‹Р±СЂР°РЅРѕ С„Р°Р№Р»РѕРІ: ${n}. Р’ РґРµРјРѕ С„Р°Р№Р»С‹ РЅРµ Р·Р°РіСЂСѓР¶Р°СЋС‚СЃСЏ.`
+      : '';
+  });
+
+  document.getElementById('sendForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    UI.openModal({
+      icon: 'ok',
+      title: 'Р—Р°СЏРІРєР° СЃРѕР·РґР°РЅР°',
+      text: mode === 'self'
+        ? 'РњС‹ РїРѕР»СѓС‡РёР»Рё Р·Р°СЏРІРєСѓ РЅР° РїСЂРёС‘РјРєСѓ. РџСЂРѕРїСѓСЃРє Рё СЃС‚Р°С‚СѓСЃ Р·Р°СЏРІРєРё РґРѕСЃС‚СѓРїРЅС‹ РІ СЂР°Р·РґРµР»Рµ В«РњРѕРё Р·Р°РєР°Р·С‹В».'
+        : 'РњС‹ РїРѕР»СѓС‡РёР»Рё Р·Р°СЏРІРєСѓ РЅР° Р·Р°Р±РѕСЂ РіСЂСѓР·Р°. РњРµРЅРµРґР¶РµСЂ СЃРІСЏР¶РµС‚СЃСЏ СЃ РІР°РјРё РґР»СЏ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ.',
+      actions: [{ label: 'РџРµСЂРµР№С‚Рё Рє Р·Р°РєР°Р·Р°Рј', onClick: () => { location.href = 'orders.html'; } }]
+    });
+  });
+})();
+</script>
+</body>
+</html>
